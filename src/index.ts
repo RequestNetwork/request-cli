@@ -61,6 +61,18 @@ async function main() {
     ],
   });
 
+  let jsModuleType: "esm" | "cjs" = "esm";
+
+  if (language === "javascript") {
+    jsModuleType = await p.select({
+      message: "Choose the JavaScript module type:",
+      options: [
+        { value: "esm", label: "ECMAScript Modules (ESM)" },
+        { value: "cjs", label: "CommonJS" },
+      ],
+    });
+  }
+
   // Step 5: Choose injection path
   const injectionPath = await p.text({
     message:
@@ -77,7 +89,8 @@ async function main() {
     const { filePath, packages } = await injectCode(
       injectionPath,
       selectedFunctions,
-      language
+      language,
+      jsModuleType
     );
     p.note(
       `Request Network functionality has been successfully injected into your project at ${filePath}!`

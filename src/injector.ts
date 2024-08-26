@@ -19,6 +19,7 @@ import {
   getRequestsByWalletAdderessMethod,
 } from "./methods";
 import { typesContent } from "./types";
+import { esmToCommonjs } from "./utils/esmToCommonjs";
 
 interface FunctionInfo {
   implementation: string;
@@ -84,7 +85,8 @@ const imports: { [key: string]: string } = {
 
 export async function generateCode(
   selectedFunctions: string[],
-  language: string
+  language: string,
+  jsModuleType: "esm" | "cjs" = "esm"
 ): Promise<{ code: string; packages: Set<string> }> {
   const requiredImports = new Set<string>();
   const requiredPackages = new Set<string>();
@@ -111,6 +113,9 @@ export async function generateCode(
 
   if (language === "javascript") {
     code = await removeTypes(code);
+    if (jsModuleType === "cjs") {
+      code = await esmToCommonjs(code);
+    }
   }
 
   return { code, packages: requiredPackages };
@@ -119,7 +124,8 @@ export async function generateCode(
 export async function injectCode(
   injectionPath: string,
   selectedFunctions: string[],
-  language: string
+  language: string,
+  jsModuleType: "esm" | "cjs" = "esm"
 ): Promise<{ filePath: string; packages: Set<string> }> {
   const fullPath = path.join(process.cwd(), injectionPath, "requestNetwork");
   fs.mkdirSync(fullPath, { recursive: true });
@@ -127,7 +133,11 @@ export async function injectCode(
   const fileName = `index.${language === "typescript" ? "ts" : "js"}`;
   const filePath = path.join(fullPath, fileName);
 
-  const { code, packages } = await generateCode(selectedFunctions, language);
+  const { code, packages } = await generateCode(
+    selectedFunctions,
+    language,
+    jsModuleType
+  );
 
   fs.writeFileSync(filePath, code);
 
