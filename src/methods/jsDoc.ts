@@ -76,21 +76,32 @@ export const createRequestJSDoc = `
 
 export const payRequestJSDoc = `
 /**
- * Pay the request for a given request ID.
+ * Pay the request for a given request ID or an in-memory request.
  * 
  * @param {Object} params - The parameters for processing the payment request.
- * @param {string} params.requestId - The ID of the request to process.
+ * @param {string} [params.requestId] - The ID of the request to process (required if inMemoryRequest is not provided).
+ * @param {any} [params.inMemoryRequest] - The in-memory request object (required if requestId is not provided).
  * @param {any} params.signer - The signer object for transaction signing.
  * @param {any} params.provider - The provider object for blockchain interaction.
  * @param {number} [params.confirmationBlocks=2] - The number of blocks to wait for confirmation.
  * 
  * @returns {Promise<Object>} A promise that resolves to the payment transaction object.
  * 
- * @throws {Error} Throws an error if there are insufficient funds for ERC20 payments.
+ * @throws {Error} Throws an error if there are insufficient funds for ERC20 payments or if neither requestId nor inMemoryRequest is provided.
  * 
  * @example
+ * // Pay a request using requestId
  * const paymentTx = await payRequest({
  *   requestId: '0x1234...', // The request ID
+ *   signer: web3Signer,
+ *   provider: web3Provider,
+ *   confirmationBlocks: 3
+ * });
+ * 
+ * @example
+ * // Pay an in-memory request
+ * const paymentTx = await payRequest({
+ *   inMemoryRequest: inMemoryRequestObject,
  *   signer: web3Signer,
  *   provider: web3Provider,
  *   confirmationBlocks: 3
@@ -100,7 +111,6 @@ export const payRequestJSDoc = `
  * console.log('Payment transaction:', paymentTx);
  */
 `;
-
 export const persistInMemoryRequestJSDoc = `
 /**
  * Persists an in-memory request to the Request Network.

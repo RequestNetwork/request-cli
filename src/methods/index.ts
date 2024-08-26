@@ -96,24 +96,36 @@ export const createRequestMethod = `export async function createRequest({
 
 export const payRequestMethod = `export async function payRequest({
   requestId,
+  inMemoryRequest,
   signer,
   provider,
   confirmationBlocks = 2,
 }: {
-  requestId: string;
+  requestId?: string;
+  inMemoryRequest?: any;
   signer: any;
   provider: any;
   confirmationBlocks: number;
 }) {
-  const requestClient = new RequestNetwork({
-    nodeConnectionConfig: {
-      baseURL: "https://gnosis.gateway.request.network",
-    },
-  });
+  let requestData;
 
-  const request = await requestClient.fromRequestId(requestId);
+  if (inMemoryRequest) {
+    requestData = inMemoryRequest.inMemoryInfo?.requestData;
+    if (!requestData) {
+      throw new Error("Invalid in-memory request");
+    }
+  } else if (requestId) {
+    const requestClient = new RequestNetwork({
+      nodeConnectionConfig: {
+        baseURL: "https://gnosis.gateway.request.network",
+      },
+    });
 
-  const requestData = request.getData();
+    const request = await requestClient.fromRequestId(requestId);
+    requestData = request.getData();
+  } else {
+    throw new Error("Either requestId or inMemoryRequest must be provided");
+  }
 
   const isERC20 =
     requestData.currencyInfo.type === Types.RequestLogic.CURRENCY.ERC20;
