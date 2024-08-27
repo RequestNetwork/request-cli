@@ -32,7 +32,7 @@ To use the Request Network Injector CLI, follow these steps:
 2. Run the following command:
 
    ```
-   npx @request-network/injector
+   npx request-cli
    ```
 
 3. Follow the prompts to select your desired functions and configurations
