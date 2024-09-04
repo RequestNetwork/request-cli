@@ -1,6 +1,6 @@
 {
   "name": "request-cli",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "CLI tool for injecting Request Network functionality",
   "bin": {
     "request-cli": "./dist/index.js"
