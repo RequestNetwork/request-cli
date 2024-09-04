@@ -113,7 +113,7 @@ async function detectPackageManager(): Promise<string> {
   if (checkLockFile("yarn.lock")) return "yarn";
   if (checkLockFile("package-lock.json")) return "npm";
 
-  return await p.select({
+  return (await p.select({
     message: "We couldn't detect your package manager. Please choose one:",
     options: [
       { value: "npm", label: "npm" },
@@ -121,8 +121,9 @@ async function detectPackageManager(): Promise<string> {
       { value: "pnpm", label: "pnpm" },
       { value: "bun", label: "Bun" },
     ],
-  });
+  })) as string;
 }
+type PackageManager = "bun" | "pnpm" | "yarn" | "npm";
 
 async function installPackages(packageManager: string, packages: Set<string>) {
   const installCommands = {
@@ -132,7 +133,7 @@ async function installPackages(packageManager: string, packages: Set<string>) {
     npm: "npm install",
   };
 
-  const installCommand = installCommands[packageManager];
+  const installCommand = installCommands[packageManager as PackageManager];
 
   const spinner = p.spinner();
   spinner.start(`Installing packages using ${packageManager}`);
@@ -149,7 +150,9 @@ async function installPackages(packageManager: string, packages: Set<string>) {
     });
     spinner.stop(`Packages installed successfully using ${packageManager}`);
   } catch (error) {
-    spinner.stop(`Failed to install packages: ${error.message}`);
+    if (error instanceof Error) {
+      spinner.stop(`Failed to install packages: ${error.message}`);
+    }
     throw error;
   }
 }
