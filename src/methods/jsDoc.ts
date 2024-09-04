@@ -135,7 +135,7 @@ export const getRequestByIDJSDoc = `
  */
 `;
 
-export const getRequestsByWalletAdderessJSDoc = `
+export const getRequestsByWalletAddressJSDoc = `
 /**
  * Retrieves all requests associated with a given wallet address.
  * 

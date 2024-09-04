@@ -99,7 +99,7 @@ async function main() {
     // Step 7: Install necessary packages
     await installPackages(packageManager, packages);
   } catch (error) {
-    p.note(`Failed to inject code: ${error.message}`);
+    p.note(`Error: Code injection failed. Details: ${error.message}`);
   }
 }
 

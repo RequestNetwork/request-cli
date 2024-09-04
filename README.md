@@ -31,7 +31,7 @@ To use the Request Network Injector CLI, follow these steps:
 1. Navigate to your project directory
 2. Run the following command:
 
-   ```
+   ```shell
    npx request-cli
    ```
 

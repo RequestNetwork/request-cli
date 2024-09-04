@@ -8,7 +8,7 @@ import {
   payRequestJSDoc,
   persistInMemoryRequestJSDoc,
   getRequestByIDJSDoc,
-  getRequestsByWalletAdderessJSDoc,
+  getRequestsByWalletAddressJSDoc,
 } from "./methods/jsDoc";
 import {
   prepareRequestMethod,
@@ -67,7 +67,7 @@ const functionInfoMap: { [key: string]: FunctionInfo } = {
   },
   getRequestsByWalletAdderess: {
     implementation: getRequestsByWalletAdderessMethod,
-    jsDoc: getRequestsByWalletAdderessJSDoc,
+    jsDoc: getRequestsByWalletAddressJSDoc,
     imports: ["RequestNetwork"],
     packages: ["@requestnetwork/request-client.js"],
   },
