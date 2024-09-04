@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-// @ts-nocheck
 import * as p from "@clack/prompts";
 import { exec } from "child_process";
 import * as fs from "fs";
@@ -64,13 +63,13 @@ async function main() {
   let jsModuleType: "esm" | "cjs" = "esm";
 
   if (language === "javascript") {
-    jsModuleType = await p.select({
+    jsModuleType = (await p.select({
       message: "Choose the JavaScript module type:",
       options: [
         { value: "esm", label: "ECMAScript Modules (ESM)" },
         { value: "cjs", label: "CommonJS" },
       ],
-    });
+    })) as "esm" | "cjs";
   }
 
   // Step 5: Choose injection path
@@ -87,9 +86,9 @@ async function main() {
   // Step 6: Inject the code
   try {
     const { filePath, packages } = await injectCode(
-      injectionPath,
-      selectedFunctions,
-      language,
+      injectionPath as string,
+      selectedFunctions as string[],
+      language as string,
       jsModuleType
     );
     p.note(
@@ -99,7 +98,9 @@ async function main() {
     // Step 7: Install necessary packages
     await installPackages(packageManager, packages);
   } catch (error) {
-    p.note(`Error: Code injection failed. Details: ${error.message}`);
+    if (error instanceof Error) {
+      p.note(`Error: Code injection failed. Details: ${error.message}`);
+    }
   }
 }
 
