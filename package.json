@@ -1,9 +1,9 @@
 {
-  "name": "request-network-cli",
+  "name": "request-injector",
   "version": "0.1.0",
   "description": "CLI tool for injecting Request Network functionality",
   "bin": {
-    "request-network-cli": "./dist/index.js"
+    "request-injector": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",
