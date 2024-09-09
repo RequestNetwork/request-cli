@@ -196,7 +196,7 @@ export const getRequestByIDMethod = `export async function getRequestByID(reques
 }
 `;
 
-export const getRequestsByWalletAdderessMethod = `export async function getRequestsByWalletAdderess(walletAddress: string) {
+export const getRequestsByWalletAddressMethod = `export async function getRequestsByWalletAddress(walletAddress: string) {
   const requestClient = new RequestNetwork({
     nodeConnectionConfig: {
       baseURL: "https://gnosis.gateway.request.network",

@@ -16,7 +16,7 @@ import {
   payRequestMethod,
   persistInMemoryRequestMethod,
   getRequestByIDMethod,
-  getRequestsByWalletAdderessMethod,
+  getRequestsByWalletAddressMethod,
 } from "./methods";
 import { typesContent } from "./types";
 import { esmToCommonjs } from "./utils/esmToCommonjs";
@@ -65,8 +65,8 @@ const functionInfoMap: { [key: string]: FunctionInfo } = {
     imports: ["RequestNetwork"],
     packages: ["@requestnetwork/request-client.js"],
   },
-  getRequestsByWalletAdderess: {
-    implementation: getRequestsByWalletAdderessMethod,
+  getRequestsByWalletAddress: {
+    implementation: getRequestsByWalletAddressMethod,
     jsDoc: getRequestsByWalletAddressJSDoc,
     imports: ["RequestNetwork"],
     packages: ["@requestnetwork/request-client.js"],
