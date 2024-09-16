@@ -37,9 +37,9 @@ async function main() {
       label: "getRequestByID | Get request data by request id",
     },
     {
-      value: "getRequestsByWalletAdderess",
+      value: "getRequestsByWalletAddress",
       label:
-        "getRequestsByWalletAdderess | Get requests data that belong to a wallet address",
+        "getRequestsByWalletAddress | Get requests data that belong to a wallet address",
     },
   ];
 

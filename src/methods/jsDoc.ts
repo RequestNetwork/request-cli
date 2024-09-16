@@ -83,7 +83,7 @@ export const payRequestJSDoc = `
  * @param {any} [params.inMemoryRequest] - The in-memory request object (required if requestId is not provided).
  * @param {any} params.signer - The signer object for transaction signing.
  * @param {any} params.provider - The provider object for blockchain interaction.
- * @param {number} [params.confirmationBlocks=2] - The number of blocks to wait for confirmation.
+ * @param {number} [params.confirmationBlocks=2] - The number of blocks to wait for confirmation (optional, default is 2).
  * 
  * @returns {Promise<Object>} A promise that resolves to the payment transaction object.
  * 
@@ -103,14 +103,14 @@ export const payRequestJSDoc = `
  * const paymentTx = await payRequest({
  *   inMemoryRequest: inMemoryRequestObject,
  *   signer: web3Signer,
- *   provider: web3Provider,
- *   confirmationBlocks: 3
+ *   provider: web3Provider
  * });
  * 
  * // The payment transaction has been processed and confirmed
  * console.log('Payment transaction:', paymentTx);
  */
 `;
+
 export const persistInMemoryRequestJSDoc = `
 /**
  * Persists an in-memory request to the Request Network.
@@ -144,7 +144,7 @@ export const getRequestsByWalletAddressJSDoc = `
  * @returns {Promise<Array<Object>>} A promise that resolves to an array of request data objects.
  * 
  * @example
- * const requests = await getRequestsByWalletAdderess('0x5678...');
+ * const requests = await getRequestsByWalletAddress('0x5678...');
  * console.log('Number of requests:', requests.length);
  * requests.forEach(request => console.log('Request:', request));
  */
