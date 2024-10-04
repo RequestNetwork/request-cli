@@ -1,0 +1,44 @@
+name: release-cli-if-necessary
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  release-cli-if-necessary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies 📥
+        run: npm ci
+
+      - name: Make is-release-needed.sh executable
+        run: chmod +x ./scripts/is-release-needed.sh
+
+      - name: Check if version number has already been released 🕵️‍♀️
+        id: is-release-needed
+        run: |
+          echo "Checking if request-injector is already published..."
+          IS_RELEASE_NEEDED=$(./scripts/is-release-needed.sh)
+          echo "is-release-needed=$IS_RELEASE_NEEDED"
+          echo "is-release-needed=$IS_RELEASE_NEEDED" >> $GITHUB_OUTPUT
+
+      - name: Build package
+        if: steps.is-release-needed.outputs.is-release-needed == 'true'
+        run: npm run build
+
+      - name: Publish package on NPM 📦
+        if: steps.is-release-needed.outputs.is-release-needed == 'true'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.REQUEST_BOT_NPM_TOKEN }}
