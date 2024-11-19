@@ -1,4 +1,4 @@
-export const prepareRequestMethod = `export async function prepareRequest({
+export const prepareRequestMethod = `export function prepareRequest({
   currency,
   payerAddress,
   payeeAddress,
